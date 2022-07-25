@@ -5,7 +5,7 @@ set -x
 
 THIS_DIR="$PWD"
 
-PYVER=3.9.0
+PYVER=3.9.13
 SRCDIR=src/Python-$PYVER
 
 COMMON_ARGS="--arch ${ARCH:-arm} --api ${ANDROID_API:-21}"
@@ -30,4 +30,9 @@ make
 make install DESTDIR="$THIS_DIR/build"
 popd
 cp -r $SRCDIR/Android/sysroot/usr/share/terminfo build/usr/share/
+mkdir -p out/$ARCH/lib
+mkdir -p out/$ARCH/include
+cp -r $SRCDIR/Android/sysroot/usr/lib/* out/$ARCH/lib
+cp -r $SRCDIR/Android/sysroot/usr/include/* out/$ARCH/include
+cp -r build/* out/$ARCH
 cp devscripts/env.sh build/
